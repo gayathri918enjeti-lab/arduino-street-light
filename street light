@@ -1,0 +1,60 @@
+# arduino-street-lightComponents
+Arduino UNO
+LDR sensor
+10 kΩ resistor
+5 V relay module
+LED/lamp
+Jumper wires
+Arduino code
+:::writing{variant="document" id="61427" title="Automatic Street Light Arduino Code"}
+
+// Automatic Street Light using Arduino UNO and LDR
+
+const int LDR_PIN = A0;
+const int RELAY_PIN = 8;
+
+int lightValue;
+int threshold = 500;
+
+void setup()
+{
+  pinMode(LDR_PIN, INPUT);
+  pinMode(RELAY_PIN, OUTPUT);
+
+  // Light OFF initially
+  digitalWrite(RELAY_PIN, LOW);
+
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  lightValue = analogRead(LDR_PIN);
+
+  Serial.print("LDR Value: ");
+  Serial.println(lightValue);
+
+  // Dark condition
+  if (lightValue < threshold)
+  {
+    digitalWrite(RELAY_PIN, HIGH);
+    Serial.println("Street Light: ON");
+  }
+  else
+  {
+    digitalWrite(RELAY_PIN, LOW);
+    Serial.println("Street Light: OFF");
+  }
+
+  delay(500);
+}
+:::
+
+Connections
+LDR output → A0
+Relay IN → D8
+Relay VCC → 5V
+Relay GND → GND
+The threshold = 500 value may need adjustment depending on your LDR and lighting conditions.
+
+⚠️ If you're switching a 230-V AC street lamp, use a properly rated relay, fuse, enclosure, and safe isolation. Don't handle exposed mains wiring while powered.
